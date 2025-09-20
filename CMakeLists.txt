@@ -3,7 +3,8 @@ project(Desktop_ImGui02 CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Desktop_ImGui02 main.cpp)
+add_executable(Desktop_ImGui02 main.cpp
+        ImguiOpenglWrapper.h)
 
 # ImGui
 set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/imgui)
