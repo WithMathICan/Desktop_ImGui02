@@ -3,7 +3,10 @@ project(Desktop_ImGui02 CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Desktop_ImGui02 main.cpp)
+add_executable(Desktop_ImGui02
+        main.cpp
+        ImguiOpenglBase.cpp
+        ImguiOpenglBase.h)
 
 # ImGui
 set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/imgui)
@@ -18,7 +21,6 @@ target_include_directories(imgui PUBLIC ${IMGUI_DIR} ${IMGUI_DIR}/backends)
 target_link_libraries(imgui PUBLIC glfw)
 
 # Main executable
-add_executable(MyImGuiApp main.cpp)
 target_link_libraries(Desktop_ImGui02 PRIVATE imgui glfw opengl32)
 
 find_package(glfw3 CONFIG REQUIRED)
