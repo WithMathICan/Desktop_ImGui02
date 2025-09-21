@@ -8,24 +8,43 @@
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
 
+class GLFWInitializer {
+public:
+    GLFWInitializer() {
+        if (!glfwInit()) {
+            throw std::runtime_error("Failed to initialize GLFW");
+        }
+    }
+
+    ~GLFWInitializer() {
+        glfwTerminate();
+    }
+
+    // Удаляем копирование и перемещение, чтобы избежать дублирования инициализации
+    GLFWInitializer(const GLFWInitializer&) = delete;
+    GLFWInitializer& operator=(const GLFWInitializer&) = delete;
+    GLFWInitializer(GLFWInitializer&&) = delete;
+    GLFWInitializer& operator=(GLFWInitializer&&) = delete;
+};
+
 class ImguiOpenglBase {
     static void glfw_error_callback(int error, const char* description) {
         std::cerr << "GLFW Error " << error << " : " << description << std::endl;
     }
     GLFWwindow* window;
+    GLFWInitializer glfwInitializer;
 
 protected:
     virtual void RenderGui() = 0;
     ImGuiIO io;
 public:
-    void UpdateBackgroundColor(const ImVec4 &clear_color) {
+    static void UpdateBackgroundColor(const ImVec4 &clear_color) {
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
     explicit ImguiOpenglBase(const char* windowName) {
         glfwSetErrorCallback(glfw_error_callback);
-        if (!glfwInit()) throw std::runtime_error("Failed to initialize GLFW");
 
         const char* glsl_version = "#version 130";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -95,8 +114,6 @@ public:
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
-
         glfwDestroyWindow(window);
-        glfwTerminate();
     }
 };
