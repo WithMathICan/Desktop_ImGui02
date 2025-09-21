@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Desktop_ImGui02
         main.cpp
-        ImguiOpenglBase.cpp
         ImguiOpenglBase.h)
 
 # ImGui
