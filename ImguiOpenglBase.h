@@ -1,3 +1,4 @@
+#pragma once
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -33,17 +34,16 @@ class ImguiOpenglBase {
     }
     GLFWwindow* window;
     GLFWInitializer glfwInitializer;
+    ImVec4 Background_Color;
 
 protected:
     virtual void RenderGui() = 0;
-    ImGuiIO io;
-public:
-    static void UpdateBackgroundColor(const ImVec4 &clear_color) {
-        glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
+    void setBackgroundColor(const ImVec4 &color) {
+        Background_Color = color;
     }
 
-    explicit ImguiOpenglBase(const char* windowName) {
+public:
+    explicit ImguiOpenglBase(const char* windowName, const ImVec4 &background_color) : Background_Color(background_color) {
         glfwSetErrorCallback(glfw_error_callback);
 
         const char* glsl_version = "#version 130";
@@ -62,7 +62,7 @@ public:
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-        io = ImGui::GetIO(); (void)io;
+        ImGuiIO& io = ImGui::GetIO(); (void)(io);
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
@@ -103,9 +103,9 @@ public:
             int display_w, display_h;
             glfwGetFramebufferSize(window, &display_w, &display_h);
             glViewport(0, 0, display_w, display_h);
-
+            glClearColor(Background_Color.x, Background_Color.y, Background_Color.z, Background_Color.w);
+            glClear(GL_COLOR_BUFFER_BIT);
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
             glfwSwapBuffers(window);
         }
     }

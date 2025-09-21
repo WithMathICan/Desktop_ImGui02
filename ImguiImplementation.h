@@ -8,5 +8,12 @@ class ImguiImplementation final : public ImguiOpenglBase {
 
     void RenderGui() override;
 public:
-    explicit ImguiImplementation(const char* windowName) : ImguiOpenglBase(windowName) {}
+    explicit ImguiImplementation(const char* windowName) : ImguiOpenglBase(windowName, clear_color) {}
+};
+
+class ImguiDemo02 final : public ImguiOpenglBase {
+    int counter = 0;
+    void RenderGui() override;
+public:
+    explicit ImguiDemo02(const char* windowName) : ImguiOpenglBase(windowName, ImVec4(0.75f, 0.75f, 0.75f, 1.00f)) {}
 };

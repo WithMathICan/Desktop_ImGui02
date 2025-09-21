@@ -9,20 +9,20 @@ void ImguiImplementation::RenderGui() {
         static float f = 0.0f;
         static int counter = 0;
 
-        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+        ImGui::Begin("Hello, world!");
 
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+        ImGui::Text("This is some useful text.");
+        ImGui::Checkbox("Demo Window", &show_demo_window);
         ImGui::Checkbox("Another Window", &show_another_window);
 
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", reinterpret_cast<float *>(&clear_color)); // Edit 3 floats representing a color
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+        ImGui::ColorEdit3("clear color", reinterpret_cast<float *>(&clear_color));
 
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
+        if (ImGui::Button("Button")) counter++;
         ImGui::SameLine();
         ImGui::Text("counter = %d", counter);
 
+        const ImGuiIO& io = ImGui::GetIO();
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
         ImGui::End();
     }
@@ -37,5 +37,22 @@ void ImguiImplementation::RenderGui() {
         ImGui::End();
     }
 
-    UpdateBackgroundColor(clear_color);
+    setBackgroundColor(clear_color);
 }
+
+void ImguiDemo02::RenderGui() {
+    ImGui::Begin("Demo Window 02!");
+    ImGui::Text("Press button to change counter");
+    ImGui::Text("Counter = %d", counter);
+    if (ImGui::Button("Increase Counter")) ++counter;
+    ImGui::SameLine();
+    if (counter > 0) {
+        if (ImGui::Button("Decrease Counter")) --counter;
+    } else {
+        ImGui::BeginDisabled();
+        ImGui::Button("Decrease Counter");
+        ImGui::EndDisabled();
+    }
+    ImGui::End();
+}
+
