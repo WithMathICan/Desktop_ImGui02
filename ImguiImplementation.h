@@ -15,5 +15,17 @@ class ImguiDemo02 final : public ImguiOpenglBase {
     int counter = 0;
     void RenderGui() override;
 public:
-    explicit ImguiDemo02(const char* windowName) : ImguiOpenglBase(windowName, ImVec4(0.75f, 0.75f, 0.75f, 1.00f)) {}
+    explicit ImguiDemo02(const char* windowName) : ImguiOpenglBase(windowName) {}
+};
+
+class ImguiImPlot01 final : public ImguiOpenglBase {
+    void RenderGui() override;
+public:
+    explicit ImguiImPlot01(const char* windowName) : ImguiOpenglBase(windowName) {
+        ImPlot::CreateContext();
+    }
+
+    ~ImguiImPlot01() override {
+        ImPlot::DestroyContext();
+    }
 };
