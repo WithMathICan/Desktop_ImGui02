@@ -58,15 +58,16 @@ void ImguiDemo02::RenderGui() {
 }
 
 void ImguiImPlot01::RenderGui() {
-    ImGui::Begin("ImGui & ImPlot");
-    ImGui::Text("This is plot");
-    if (ImPlot::BeginPlot("Simple Plot", ImVec2(-1, -1))) {  // -1 означает ширину окна, 150 — высота
-        float x[] = {0.0f, 1.0f, 2.0f};
-        float y[] = {1.0f, 2.0f, -5.0f};
-        ImPlot::SetupAxes("X-axis", "Y-axis");
-        ImPlot::PlotLine("Data", x, y, 3);  // Рисуем линию через точки
-        ImPlot::EndPlot();
-    }
-    ImGui::End();
+    Demo_CustomPlottersAndTooltips();
+    // ImGui::Begin("ImGui & ImPlot");
+    // ImGui::Text("This is plot");
+    // if (ImPlot::BeginPlot("Simple Plot", ImVec2(-1, -1))) {  // -1 означает ширину окна, 150 — высота
+    //     float x[] = {0.0f, 1.0f, 2.0f};
+    //     float y[] = {1.0f, 2.0f, -5.0f};
+    //     ImPlot::SetupAxes("X-axis", "Y-axis");
+    //     ImPlot::PlotLine("Data", x, y, 3);  // Рисуем линию через точки
+    //     ImPlot::EndPlot();
+    // }
+    // ImGui::End();
 }
 
