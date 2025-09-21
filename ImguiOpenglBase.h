@@ -43,14 +43,14 @@ protected:
     float main_scale;
     const char * Window_Name;
 public:
-    void UpdateBackgroundColor(const ImVec4 &clear_color) {
+    static void UpdateBackgroundColor(const ImVec4 &clear_color) {
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
     explicit ImguiOpenglBase(const char* windowName)
-        : Window_Name(windowName),
-          window(nullptr, glfwDestroyWindow) {
+        : window(nullptr, glfwDestroyWindow),
+          Window_Name(windowName) {
         glfwSetErrorCallback(glfw_error_callback);
         if (!glfwInit()) throw std::runtime_error("Failed to initialize GLFW");
 
@@ -60,8 +60,7 @@ public:
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
         // Получение масштаба после glfwInit
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        if (monitor) {
+        if (GLFWmonitor* monitor = glfwGetPrimaryMonitor()) {
             main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(monitor);
         } else {
             std::cerr << "Warning: Failed to get primary monitor, using scale 1.0" << std::endl;
